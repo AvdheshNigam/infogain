@@ -1,3 +1,3 @@
-npm insall
-npm run build
-npm run start
+# npm insall
+# npm run build
+# npm run start
