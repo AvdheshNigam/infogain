@@ -1,0 +1,383 @@
+/********************Variables*************************/
+$primaryColor: #2196f3;
+$textColor: #000;
+$textWhite: #ffffff;
+$containerWidth: 80%;
+/*******************Main Section**************************/
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  height: 100%;
+  background: linear-gradient(180deg, #ace0f9 100px, transparent calc(100% - 100px));
+  background-attachment: fixed;
+
+}
+
+* {
+  box-sizing: border-box;
+
+}
+
+
+
+main {
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+
+  @media (min-width:1023px) {
+    max-width: $containerWidth;
+  }
+}
+
+i {
+  font-style: normal;
+}
+
+button {
+  border: none;
+  border-radius: 2px;
+  padding: 7px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  background-color: $primaryColor;
+  outline: none;
+  background-position: center;
+  transition: background 0.8s;
+
+  >span {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  &:hover {
+    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  }
+
+  &:active {
+    background-color: #6eb9f7;
+    background-size: 100%;
+    transition: background 0s;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (min-width:1024px) {
+    max-width: $containerWidth;
+  }
+
+  &__logo {
+    display: block;
+
+    >img {
+      width: 30px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    color: $textColor;
+
+    @media (max-width:991px) {
+      display: none;
+    }
+  }
+
+  >button {
+
+    @media (max-width: 991px) {
+      background: transparent;
+    }
+
+    >span {
+      color: $textWhite;
+      font-size: 40px;
+
+
+      @media (min-width: 991px) {
+        display: none;
+      }
+    }
+
+    >i {
+      display: block;
+
+      @media (max-width: 991px) {
+        display: none;
+      }
+    }
+  }
+}
+
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  background: #4ebaed;
+  padding: 15px 15px;
+  margin-top: 15px;
+  gap: 10px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+
+  @media (max-width:991px) {
+    justify-content: space-between;
+  }
+
+  &__input {
+    font-size: 20px;
+    padding: 7px 0px;
+    border: none;
+    border-bottom: 1px solid $textWhite;
+    background: transparent;
+
+    color: $textWhite;
+
+    @media (min-width:1024px) {
+      width: 30%;
+    }
+
+    @media (max-width:991px) {
+      width: 60%;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $textWhite;
+
+    }
+  }
+
+  &__btn {
+    display: block;
+  }
+}
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+
+  &__current {
+    display: flex;
+    background: #4ebaed;
+    justify-content: space-between;
+    padding: 15px 15px;
+
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    @media (max-width: 671px) {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &__details {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @media (max-width: 990px) {
+        flex-direction: column;
+      }
+
+      >h2 {
+        font-size: 30px;
+        margin: 0;
+        padding: 0;
+
+        >i {
+          display: block;
+          font-size: 17px;
+          font-weight: 200;
+        }
+
+        >span {
+          display: block;
+          font-size: 17px;
+          font-weight: 200;
+
+          >i {
+            font-size: 17px;
+            font-weight: 800;
+          }
+        }
+
+      }
+
+      >h4 {
+        font-size: 30px;
+        margin: 0;
+        padding: 0;
+
+        >span {
+          display: block;
+          font-size: 55px;
+          font-weight: 200;
+
+          >img {
+            vertical-align: middle;
+            max-width: 100%;
+          }
+        }
+      }
+
+      p {
+        font-size: 15px;
+        padding: 5px 15px;
+        margin: 0;
+        line-height: 1;
+      }
+    }
+
+    &__image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      >h4 {
+        text-transform: uppercase;
+        color: #68ceff;
+        margin: 0;
+        padding: 0;
+        line-height: .8;
+        text-align: right;
+        font-size: 50px;
+        padding: 15px 0;
+
+        @media (max-width: 990px) {
+          text-align: center;
+        }
+      }
+    }
+
+  }
+}
+
+.forecast {
+  display: block;
+
+  >h1 {
+    margin: 0;
+    padding: 15px;
+  }
+}
+
+.weather-container__list {
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    list-style: none;
+    display: inline-block;
+    padding: 15px 0;
+
+
+
+    @media(max-width:500px) {
+      width: 100%;
+    }
+
+    @media(min-width:501px) and (max-width: 990px) {
+      width: 50%;
+    }
+
+    @media(min-width:991px) and (max-width: 1200px) {
+      width: 33.333%;
+    }
+
+    @media(min-width:1200px) {
+      width: 33.333%;
+    }
+
+    @media(min-width:1400px) {
+      width: 20%;
+    }
+
+    &__card {
+      display: block;
+      padding: 15px 15px;
+      background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+      border-radius: 5px;
+      border: 1px solid $textWhite;
+      box-shadow: 0px 3px 3px #dddddd;
+      margin: 10px;
+
+      >h2 {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      >h4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+        font-weight: 200;
+        margin: 0;
+        padding: 0;
+
+        >img {
+          vertical-align: middle;
+          max-width: 100%;
+        }
+      }
+
+      >p {
+        display: flex;
+        justify-content: space-between;
+        font-size: 17px;
+        font-weight: 400;
+      }
+
+      >img {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+  }
+}
+
+/*******************Loader CSS***********************/
+.js-loader {
+  display: block;
+  margin: 0 auto;
+  width: 120px;
+  height: 22px;
+  border-radius: 20px;
+  color: $primaryColor;
+  border: 2px solid;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    margin: 2px;
+    inset: 0 100% 0 0;
+    border-radius: inherit;
+    background: currentColor;
+    animation: l6 2s infinite;
+  }
+}
+
+
+@keyframes l6 {
+  100% {
+    inset: 0
+  }
+}
