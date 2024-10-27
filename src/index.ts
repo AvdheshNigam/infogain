@@ -12,12 +12,13 @@ const API_KEY = "119dbed2cff683a9f6d4edf84d63836f";
 const createWeatherCard = (cityName: any, country: any, weatherItem: any, index: any) => {
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const imgName = weatherItem.weather[0].icon === '09d' || weatherItem.weather[0].icon === '10n' ? 'block' : 'none';
+  console.log(imgName);
 
   if (index === 0) {
     return `<div class="weather-container__current__details">
       <h2> <span><i>Now </i> ${monthNames[`${new Date((weatherItem.dt_txt).split(" ")[0]).getMonth()}`]} ${weatherItem.dt_txt.split(" ")[0].split("-")[2]}</span>${cityName}, ${country} </h2>
-        <h4> <span><img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="" />
-          ${(weatherItem.main.temp - 273.15).toFixed(0)}&deg;C </span></h4>
+        <h4><span> ${(weatherItem.main.temp - 273.15).toFixed(0)}&deg;C </span></h4>
             <p>
             <span><i>Temp: Min </i> ${(weatherItem.main.temp_min - 273.15).toFixed(0)}&deg;C </span >
               <span><i>Max </i>: ${(weatherItem.main.temp_max - 273.15).toFixed(0)}&deg;C</span >
@@ -27,12 +28,35 @@ const createWeatherCard = (cityName: any, country: any, weatherItem: any, index:
               <span><i>Humidity </i>: ${weatherItem.main.humidity}%</span >
               </p>
               </div>
-              <div div div class="weather-container__current__image">
+                <div class="container-rain" style="display: ${imgName}">
+                  <div class="container-rain__cloud">
+                    <div class="container-rain__cloud__rain">
+                      <span style="--i:11"></span>
+                      <span style="--i:12"></span>
+                      <span style="--i:10"></span>
+                      <span style="--i:14"></span>
+                      <span style="--i:18"></span>
+                      <span style="--i:16"></span>
+                      <span style="--i:19"></span>
+                      <span style="--i:20"></span>
+                      <span style="--i:19"></span>
+                      <span style="--i:14"></span>
+                      <span style="--i:18"></span>
+                      <span style="--i:11"></span>
+                      <span style="--i:13"></span>
+                      <span style="--i:15"></span>
+                      <span style="--i:17"></span>
+                    </div>
+                  </div>
+              </div>
+              <div class="weather-container__current__image">
+              <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="" />
                   <h4>${weatherItem.weather[0].description} </h4>
                     </div>`
   } else {
     return `<li class="weather-container__list__item">
               <div class="weather-container__list__item__card">
+
                 <h2><span>${dayNames[`${new Date((weatherItem.dt_txt).split(" ")[0]).getDay()}`]}, ${monthNames[`${new Date((weatherItem.dt_txt).split(" ")[0]).getMonth()}`]}, ${weatherItem.dt_txt.split(" ")[0].split("-")[2]}</span> </h2>
                 <h4>${(weatherItem.main.temp - 273.15).toFixed(0)}&deg;C <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt=""  /></h4>
                 
@@ -40,7 +64,29 @@ const createWeatherCard = (cityName: any, country: any, weatherItem: any, index:
                   <span><i>Wind</i> ${weatherItem.wind.speed} KM </span> 
                   <span><i>Humidity</i>: ${weatherItem.main.humidity}%</span>
                 </p>
+
+                <div class="container-rain" style="display: ${imgName}; position: absolute; z-index: 99999; top: 0;">
+                  <div class="container-rain__cloud">
+                    <div class="container-rain__cloud__rain">
+                      <span style="--i:11"></span>
+                      <span style="--i:12"></span>
+                      <span style="--i:10"></span>
+                      <span style="--i:14"></span>
+                      <span style="--i:18"></span>
+                      <span style="--i:16"></span>
+                      <span style="--i:19"></span>
+                      <span style="--i:20"></span>
+                      <span style="--i:19"></span>
+                      <span style="--i:14"></span>
+                      <span style="--i:18"></span>
+                      <span style="--i:11"></span>
+                      <span style="--i:13"></span>
+                      <span style="--i:15"></span>
+                      <span style="--i:17"></span>
+                    </div>
+                  </div> 
               </div>
+                
           </li>`
 
   }
