@@ -20,7 +20,6 @@ const createWeatherCard = (cityName: any, country: any, weatherItem: any, index:
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const imgName = weatherItem.weather[0].icon === '09d' || weatherItem.weather[0].icon === '10n' ? 'block' : 'none';
-  console.log(imgName);
 
   if (index === 0) {
     return `<div class="weather-container__current__details">
@@ -104,7 +103,6 @@ const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
   loader.style.display = "block";
   fetch(WEATHER_API_URL).then((res) => res.json()).then((data) => {
     loader.style.display = "none";
-    console.log("data", data);
 
     const qniqueForcastDays: any = [];
     const fiveDaysForecast = data.list.filter((forecast: any) => {
@@ -118,7 +116,6 @@ const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
     weatherlist.innerHTML = "";
     currentWeaherDiv.innerHTML = "";
 
-    console.log(fiveDaysForecast);
     fiveDaysForecast.forEach((weatherItem: any, index: any) => {
       if (index === 0) {
         currentWeaherDiv.insertAdjacentHTML("beforeend", createWeatherCard(cityName, country, weatherItem, index));
@@ -142,13 +139,12 @@ const getCityCoordinates = () => {
     errorMessage.style.display = "none";
   }
   if (!cityName) return;
-  console.log(cityName);
+
   const GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`;
 
 
 
   fetch(GEOCODING_API_URL).then((res) => res.json()).then((data) => {
-    console.log(data);
     if (!data.length) {
       errorDataNotFound.style.display = "block";
       return errorDataNotFound.innerText = `Not found. To make search more precise put the ${cityName} city's name`;
@@ -165,13 +161,10 @@ const getCityCoordinates = () => {
 
 const getUserCoordinates = () => {
   navigator.geolocation.getCurrentPosition(position => {
-    console.log(position);
     const { latitude, longitude } = position.coords;
     const REVERSE_GEOCODING_URL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`;
     fetch(REVERSE_GEOCODING_URL).then((res) => res.json()).then((data) => {
-      console.log(data);
       const { name, country } = data[0];
-      console.log(name, country);
       getWeatherDetails(name, country, latitude, longitude)
 
     }).catch((error) => {
@@ -179,13 +172,20 @@ const getUserCoordinates = () => {
       return errorDataNotFound.innerText = `An error occured while fetching the data city! ${error.message}`;
     });
   }, error => {
-    console.log(error);
     if (error.code === error.PERMISSION_DENIED) {
       errorDataNotFound.style.display = "block";
       errorDataNotFound.innerText = `${error.message}`;
       setTimeout(() => {
         return errorDataNotFound.innerText = `Geolocation request denied. Please reset location permission to grant access again!`;
       }, 3000)
+    }
+    if (error.code === error.POSITION_UNAVAILABLE) {
+      errorDataNotFound.style.display = "block";
+      return errorDataNotFound.innerText = `Location information is unavailable.`;
+    }
+    if (error.code === error.TIMEOUT) {
+      errorDataNotFound.style.display = "block";
+      return errorDataNotFound.innerText = `The request to get user location timed out.`;
     }
   });
 }
