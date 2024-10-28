@@ -10,7 +10,9 @@
     "sourceMap": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/index.ts",
+    "tests/index.test.ts"
   ],
   "exclude": [
     "node_modules"

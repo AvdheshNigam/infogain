@@ -16,11 +16,11 @@ errorMessage.style.display = "none";
 errorDataNotFound.style.display = "none";
 
 
-const createWeatherCard = (cityName: any, country: any, weatherItem: any, index: any) => {
+export const createWeatherCard = (cityName: any, country: any, weatherItem: any, index: any) => {
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const imgName = weatherItem.weather[0].icon === '09d' || weatherItem.weather[0].icon === '10n' ? 'block' : 'none';
-
+  const imgName = weatherItem.weather[0].icon === '09d' || weatherItem.weather[0].icon === '10n' || weatherItem.weather[0].icon === '10d' ? 'block' : 'none';
+  console.log(imgName);
   if (index === 0) {
     return `<div class="weather-container__current__details">
       <h2> <span><i>Now </i> ${monthNames[`${new Date((weatherItem.dt_txt).split(" ")[0]).getMonth()}`]} ${weatherItem.dt_txt.split(" ")[0].split("-")[2]}</span>${cityName}, ${country} </h2>
@@ -98,7 +98,7 @@ const createWeatherCard = (cityName: any, country: any, weatherItem: any, index:
   }
 }
 
-const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
+export const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
   const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
   loader.style.display = "block";
   fetch(WEATHER_API_URL).then((res) => res.json()).then((data) => {
@@ -130,7 +130,7 @@ const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
   })
 }
 
-const getCityCoordinates = () => {
+export const getCityCoordinates = () => {
 
   const cityName = cityInput.value.trim();
   if (cityName.length === 0) {
@@ -159,7 +159,7 @@ const getCityCoordinates = () => {
   })
 }
 
-const getUserCoordinates = () => {
+export const getUserCoordinates = () => {
   navigator.geolocation.getCurrentPosition(position => {
     const { latitude, longitude } = position.coords;
     const REVERSE_GEOCODING_URL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`;
@@ -172,6 +172,7 @@ const getUserCoordinates = () => {
       return errorDataNotFound.innerText = `An error occured while fetching the data city! ${error.message}`;
     });
   }, error => {
+    console.log(error)
     if (error.code === error.PERMISSION_DENIED) {
       errorDataNotFound.style.display = "block";
       errorDataNotFound.innerText = `${error.message}`;
