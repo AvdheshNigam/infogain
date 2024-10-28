@@ -30,6 +30,13 @@ main {
   @media (min-width:1200px) {
     max-width: $containerWidth;
   }
+
+  >p {
+    background: #df5757;
+    padding: 15px;
+    border-radius: 3px;
+    color: #ffffff;
+  }
 }
 
 i {
@@ -123,6 +130,7 @@ button {
 .search {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   background: #4ebaed;
   padding: 15px 15px;
   margin-top: 15px;
@@ -159,6 +167,12 @@ button {
       color: $textWhite;
 
     }
+  }
+
+  >span {
+    display: block;
+    font-size: 12px;
+    color: #f00;
   }
 
   &__btn {

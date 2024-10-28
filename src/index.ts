@@ -2,12 +2,19 @@ console.log("running...");
 import './css/index.scss';
 const cityInput = document.querySelector(".search__input") as HTMLInputElement;
 const searchButton = document.querySelector(".search__btn") as HTMLButtonElement;
+const searchInput = document.querySelector(".search__input") as HTMLButtonElement;
 const currentLoctionButton = document.querySelector(".header__btn") as HTMLButtonElement;
 const currentWeaherDiv = document.querySelector(".weather-container__current") as HTMLDivElement;
 const loader = document.querySelector(".js-loader") as HTMLDivElement;
 const weatherlist = document.querySelector(".weather-container__list") as HTMLUListElement;
+const errorMessage = document.querySelector(".js-error-msg") as HTMLSpanElement;
+const errorDataNotFound = document.querySelector(".js-data-not-found") as HTMLParagraphElement;
 
 const API_KEY = "119dbed2cff683a9f6d4edf84d63836f";
+
+errorMessage.style.display = "none";
+errorDataNotFound.style.display = "none";
+
 
 const createWeatherCard = (cityName: any, country: any, weatherItem: any, index: any) => {
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -121,13 +128,19 @@ const getWeatherDetails = (cityName: any, country: any, lat: any, lon: any) => {
     })
 
   }).catch((error) => {
-    alert(`An Error occured while fetching the data ${error}`)
+    errorDataNotFound.style.display = "block";
+    errorDataNotFound.innerText = `An Error occured while fetching the data ${error}`;
   })
 }
 
 const getCityCoordinates = () => {
 
   const cityName = cityInput.value.trim();
+  if (cityName.length === 0) {
+    errorMessage.style.display = "block";
+  } else {
+    errorMessage.style.display = "none";
+  }
   if (!cityName) return;
   console.log(cityName);
   const GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`;
@@ -137,13 +150,16 @@ const getCityCoordinates = () => {
   fetch(GEOCODING_API_URL).then((res) => res.json()).then((data) => {
     console.log(data);
     if (!data.length) {
-      return alert(`No coordinates found for ${cityName}`);
+      errorDataNotFound.style.display = "block";
+      return errorDataNotFound.innerText = `Not found. To make search more precise put the ${cityName} city's name`;
     }
     const { name, country, lat, lon } = data[0];
     getWeatherDetails(name, country, lat, lon);
 
   }).catch((error) => {
-    return alert(`An error occured while fetching the data ${error}`)
+    errorDataNotFound.style.display = "block";
+    return errorDataNotFound.innerText = `An error occured while fetching the data ${error}`;
+
   })
 }
 
@@ -159,17 +175,33 @@ const getUserCoordinates = () => {
       getWeatherDetails(name, country, latitude, longitude)
 
     }).catch((error) => {
-      return alert(`An error occured while fetching the data city!`)
+      errorDataNotFound.style.display = "block";
+      return errorDataNotFound.innerText = `An error occured while fetching the data city! ${error.message}`;
     });
   }, error => {
     console.log(error);
     if (error.code === error.PERMISSION_DENIED) {
-      alert("Geolocation request denied. Please reset location permission to grant access again");
+      errorDataNotFound.style.display = "block";
+      errorDataNotFound.innerText = `${error.message}`;
+      setTimeout(() => {
+        return errorDataNotFound.innerText = `Geolocation request denied. Please reset location permission to grant access again!`;
+      }, 3000)
     }
   });
 }
+
+const validation = () => {
+  const cityName = cityInput.value.trim();
+  if (cityName.length === 0) {
+    errorMessage.style.display = "block";
+  } else {
+    errorMessage.style.display = "none";
+    errorDataNotFound.style.display = "none";
+  }
+}
 currentLoctionButton.addEventListener("click", getUserCoordinates);
 searchButton.addEventListener("click", getCityCoordinates);
+searchInput.addEventListener("keyup", validation);
 cityInput.addEventListener("keyup", (e) => e.key === "Enter" && getCityCoordinates());
 
 (() => {
